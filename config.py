@@ -1,16 +1,23 @@
 # ============================================================
 # Gimtel Reclamations - Configuration
 # ============================================================
+import os
+
+# Read a setting from the environment, falling back to a safe local default.
+# Secrets (e.g. the DB password) must NEVER be hardcoded here -- set them via
+# environment variables or a gitignored local_config.py (see bottom of file).
+def _env(name, default):
+    return os.environ.get(name, default)
 
 # --- Database type: "postgresql" or "oracle" ---
-DB_TYPE = "postgresql"  # <-- Change to "oracle" when switching to Oracle
+DB_TYPE = _env("RECLAMATIONS_DB_TYPE", "postgresql")  # <-- "oracle" to switch
 
-# --- Connection parameters ---
-DB_HOST = "localhost"
-DB_PORT = 5433           # PostgreSQL default: 5432, Oracle default: 1521
-DB_USER = "postgres"
-DB_PASSWORD = "2007adrami"
-DB_NAME = "gimtel"       # database to connect to (change if different)
+# --- Connection parameters (override with RECLAMATIONS_DB_* env vars) ---
+DB_HOST = _env("RECLAMATIONS_DB_HOST", "localhost")
+DB_PORT = int(_env("RECLAMATIONS_DB_PORT", "5433"))       # PG: 5432, Oracle: 1521
+DB_USER = _env("RECLAMATIONS_DB_USER", "postgres")
+DB_PASSWORD = _env("RECLAMATIONS_DB_PASSWORD", "")
+DB_NAME = _env("RECLAMATIONS_DB_NAME", "gimtel")
 
 # --- Google Sheet settings ---
 # Path to the service-account JSON key (in this folder).
@@ -75,3 +82,13 @@ BANK_MAP = {
     "90201": "GAZA PAY",
     "92701": "MAUIRI PAY",
 }
+
+# --- Local overrides (gitignored; keeps secrets out of version control) ---
+# Create a file named local_config.py in this folder and set any of the above
+# variables there, e.g.:
+#     DB_PASSWORD = "your_real_password"
+#     DB_PORT = 5432
+try:
+    from local_config import *  # noqa: F401,F403
+except ImportError:
+    pass
