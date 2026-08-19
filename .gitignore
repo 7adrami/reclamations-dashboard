@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Secrets / local credentials (NEVER commit)
+credentials.json
+.streamlit_gsa.json
+.streamlit/secrets.toml
+.streamlit/community_cloud_secrets.toml
+.streamlit_gsa.json
+
+# Local data / logs
+*.sqlite
+*.sqlite3
+users.json
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
