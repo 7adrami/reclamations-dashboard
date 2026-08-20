@@ -1,0 +1,10 @@
+# Template for local_config.py -- COPY this file to local_config.py and fill in.
+# local_config.py is gitignored; never commit real secrets.
+#
+# These override the safe defaults in config.py. They are read by sync.py
+# (which runs on the machine that can reach the database).
+DB_HOST = "localhost"      # hostname/IP of the Postgres server (localhost if on this PC)
+DB_PORT = 5432             # PostgreSQL default is 5432 (use your instance's port)
+DB_NAME = "gimtel"         # database name
+DB_USER = "postgres"       # database user
+DB_PASSWORD = "CHANGE_ME"  # <-- real password (use the rotated one, never the leaked one)
